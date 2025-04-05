@@ -24,19 +24,18 @@ body {
 .app {
   width: 100%;
   max-width: 1400px;
-  background: rgba(30, 40, 50, 0.75);
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  border-radius: 25px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 40, 50, 0.75); /* Restaurado */
+  padding: clamp(1.5rem, 4vw, 2.5rem); /* Restaurado */
+  border-radius: 25px; /* Restaurado */
+  backdrop-filter: blur(10px); /* Restaurado */
+  border: 1px solid rgba(255, 255, 255, 0.15); /* Restaurado */
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4); /* Restaurado */
 }
 
 /* === FILA PRINCIPAL LAYOUT === */
 .main-layout-row {
    gap: 1.5rem 0; /* Espacio vertical entre filas en móvil */
-   /* Usar align-items-start para que columnas no se estiren innecesariamente */
-   align-items: start;
+   align-items: stretch; /* <<< CLAVE: Columnas intentan igualar altura */
 }
 
 
@@ -45,330 +44,175 @@ body {
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between; /* Título/Números arriba, botón abajo */
-  min-height: 70vh; /* Altura mínima sugerida */
   text-align: center;
+  padding-bottom: 1rem; /* Espacio inferior */
 }
 
 .raffle-title {
-  font-size: clamp(2rem, 5vw, 3rem);
-  color: #f39c12;
+  font-size: clamp(2rem, 5vw, 3rem); color: #f39c12;
   text-shadow: 0 0 10px rgba(243, 156, 18, 0.8), 0 0 20px rgba(243, 156, 18, 0.6);
-  font-weight: 700;
-  margin-bottom: clamp(1rem, 3vh, 2rem);
+  font-weight: 700; margin-bottom: clamp(1rem, 3vh, 2rem);
 }
-
 .prize-display h3 {
-  font-size: clamp(1.1rem, 2.8vw, 1.5rem);
-  color: #ecf0f1;
-  font-weight: 400;
-  margin-bottom: 0.5rem;
+  font-size: clamp(1.1rem, 2.8vw, 1.5rem); color: #ecf0f1; font-weight: 400; margin-bottom: 0.5rem;
 }
 .prize-display .prize-name {
-  font-size: clamp(1.4rem, 3.5vw, 2rem);
-  color: #f1c40f;
-  font-weight: 600;
-  display: block;
-  line-height: 1.2;
+  font-size: clamp(1.4rem, 3.5vw, 2rem); color: #f1c40f; font-weight: 600; display: block; line-height: 1.2;
 }
 
 /* === NÚMEROS ESTILO CASINO === */
 .number-display {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(10px, 1.8vw, 18px);
-  flex-wrap: nowrap; /* <<< NO PERMITIR SALTO DE LÍNEA *** */
-  overflow-x: auto;  /* <<< Permitir scroll horizontal SI NO CABEN */
-  padding: 10px 5px;
-  width: 100%;
-  margin-left: auto;
-  margin-right: auto;
-  /* Estilo opcional para la barra de scroll si aparece */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(243, 156, 18, 0.5) rgba(0,0,0,0.2);
+  display: flex; justify-content: center; align-items: center;
+  gap: clamp(10px, 1.8vw, 18px); flex-wrap: nowrap; overflow-x: auto;
+  padding: 10px 5px; width: 100%; margin-left: auto; margin-right: auto;
+  scrollbar-width: thin; scrollbar-color: rgba(243, 156, 18, 0.5) rgba(0,0,0,0.2);
 }
 .number-display::-webkit-scrollbar { height: 6px; }
 .number-display::-webkit-scrollbar-track { background: rgba(0,0,0,0.2); border-radius: 3px; }
 .number-display::-webkit-scrollbar-thumb { background-color: rgba(243, 156, 18, 0.5); border-radius: 3px; }
 
-
 .digit-container { perspective: 1000px; }
-
 .digit {
-  font-family: 'Roboto Mono', monospace;
-  font-size: clamp(3.5rem, 12vw, 6rem);
-  font-weight: 700;
-  background: linear-gradient(145deg, #2a2a2a, #404040);
-  color: #ffdd57;
-  width: clamp(70px, 15vw, 100px);
-  height: clamp(100px, 22vw, 140px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 12px;
-  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.8),
-              inset 0 3px 6px rgba(255, 255, 255, 0.1),
-              0 6px 18px rgba(0, 0, 0, 0.7);
-  position: relative;
-  overflow: hidden;
-  border: 2px solid rgba(255, 215, 0, 0.3);
-  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  flex-shrink: 0; /* <<< NO PERMITIR QUE SE ENCOJA */
+  font-family: 'Roboto Mono', monospace; font-size: clamp(3.5rem, 12vw, 6rem); font-weight: 700;
+  background: linear-gradient(145deg, #2a2a2a, #404040); color: #ffdd57;
+  width: clamp(70px, 15vw, 100px); height: clamp(100px, 22vw, 140px);
+  display: flex; justify-content: center; align-items: center; border-radius: 12px;
+  box-shadow: inset 0 -4px 10px rgba(0, 0, 0, 0.8), inset 0 3px 6px rgba(255, 255, 255, 0.1), 0 6px 18px rgba(0, 0, 0, 0.7);
+  position: relative; overflow: hidden; border: 2px solid rgba(255, 215, 0, 0.3);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-shrink: 0;
 }
-.digit:hover {
-    transform: scale(1.03);
-}
-
+.digit:hover { transform: scale(1.03); }
 .digit span {
   position: relative; z-index: 2;
-  text-shadow: 0 0 6px rgba(255, 221, 87, 0.9),
-               0 0 12px rgba(255, 221, 87, 0.8),
-               0 0 20px rgba(255, 180, 0, 0.7),
-               0 0 30px rgba(255, 150, 0, 0.6);
+  text-shadow: 0 0 6px rgba(255, 221, 87, 0.9), 0 0 12px rgba(255, 221, 87, 0.8),
+               0 0 20px rgba(255, 180, 0, 0.7), 0 0 30px rgba(255, 150, 0, 0.6);
 }
-
-/* Animación de Giro */
 .digit-container.spinning .digit::before {
-  content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9";
-  white-space: pre; position: absolute; top: 0; left: 0; width: 100%; height: 1000%;
-  line-height: 1em; font-size: inherit; text-align: center;
-  color: rgba(255, 221, 87, 0.5);
-  background: linear-gradient(180deg, #222, #111, #222);
-  animation: slotSpin 0.08s linear infinite; z-index: 1;
-  padding-top: calc(50% - (1em / 2));
+  content: "0\A 1\A 2\A 3\A 4\A 5\A 6\A 7\A 8\A 9"; white-space: pre;
+  position: absolute; top: 0; left: 0; width: 100%; height: 1000%;
+  line-height: 1em; font-size: inherit; text-align: center; color: rgba(255, 221, 87, 0.5);
+  background: linear-gradient(180deg, #222, #111, #222); animation: slotSpin 0.08s linear infinite;
+  z-index: 1; padding-top: calc(50% - (1em / 2));
 }
 @keyframes slotSpin { 0% { transform: translateY(-90%); } 100% { transform: translateY(0%); } }
 
 /* === BOTÓN DE ACCIÓN === */
 .action-button {
-   width: 100%; display: flex; justify-content: center;
-   margin-top: auto; /* Empuja hacia abajo */
+   width: 100%; display: flex; justify-content: center; margin-top: auto;
    padding-top: clamp(1rem, 3vh, 2rem);
 }
 .roll-button, .restart-button {
-  padding: 0.9rem 2rem;
-  font-size: clamp(1.1rem, 2.8vw, 1.5rem);
-  border: none;
-  border-radius: 50px;
-  color: #ffffff;
-  cursor: pointer;
-  transition: all 0.35s ease;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  font-weight: 700;
-  letter-spacing: 1px;
+  padding: 0.9rem 2rem; font-size: clamp(1.1rem, 2.8vw, 1.5rem); border: none; border-radius: 50px;
+  color: #ffffff; cursor: pointer; transition: all 0.35s ease; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase; font-weight: 700; letter-spacing: 1px;
 }
-
-.roll-button {
-    background: linear-gradient(45deg, #f39c12, #f1c40f);
-    color: #4a3000;
-    border: 1px solid rgba(255, 255, 255, 0.4);
-}
-.roll-button:hover:not(:disabled) {
-    background: linear-gradient(45deg, #f1c40f, #f39c12);
-    box-shadow: 0 10px 25px rgba(243, 156, 18, 0.6);
-    transform: translateY(-3px) scale(1.02);
-}
-
-.restart-button {
-    background: linear-gradient(45deg, #e74c3c, #c0392b);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-.restart-button:hover {
-    background: linear-gradient(45deg, #c0392b, #e74c3c);
-    box-shadow: 0 10px 25px rgba(231, 76, 60, 0.5);
-    transform: translateY(-3px) scale(1.02);
-}
-
-.roll-button:disabled {
-  background: #6c757d !important;
-  border-color: #6c757d !important;
-  cursor: not-allowed;
-  opacity: 0.7;
-  box-shadow: none;
-  transform: none;
-  color: #ccc !important;
-}
-.roll-button .spinner-border {
-    width: 1.2em; height: 1.2em;
-    vertical-align: text-bottom;
-}
+.roll-button { background: linear-gradient(45deg, #f39c12, #f1c40f); color: #4a3000; border: 1px solid rgba(255, 255, 255, 0.4); }
+.roll-button:hover:not(:disabled) { background: linear-gradient(45deg, #f1c40f, #f39c12); box-shadow: 0 10px 25px rgba(243, 156, 18, 0.6); transform: translateY(-3px) scale(1.02); }
+.restart-button { background: linear-gradient(45deg, #e74c3c, #c0392b); border: 1px solid rgba(255, 255, 255, 0.2); }
+.restart-button:hover { background: linear-gradient(45deg, #c0392b, #e74c3c); box-shadow: 0 10px 25px rgba(231, 76, 60, 0.5); transform: translateY(-3px) scale(1.02); }
+.roll-button:disabled { background: #6c757d !important; border-color: #6c757d !important; cursor: not-allowed; opacity: 0.7; box-shadow: none; transform: none; color: #ccc !important; }
+.roll-button .spinner-border { width: 1.2em; height: 1.2em; vertical-align: text-bottom; }
 
 
 /* === COLUMNAS DE RESULTADOS === */
 .results-col {
-   min-height: 300px; /* Altura mínima para la columna */
-   max-height: 75vh; /* Altura máxima para la columna, puede ajustarse */
-   display: flex; /* Para que la card interna crezca */
-   flex-direction: column; /* Asegura dirección vertical */
+   display: flex; flex-direction: column;
 }
-
 .result-card {
-  background-color: rgba(10, 15, 20, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: #ccc;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  flex-grow: 1; /* Card ocupa espacio vertical disponible en Col */
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  border-radius: 15px;
-  overflow: hidden;
+  background-color: rgba(10, 15, 20, 0.7); border: 1px solid rgba(255, 255, 255, 0.1); color: #ccc;
+  display: flex; flex-direction: column; width: 100%; flex-grow: 1; /* <<< Card ocupa altura de Col */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3); border-radius: 15px; overflow: hidden;
 }
-
 .card-header-custom {
-  background-color: rgba(0, 0, 0, 0.4);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-  font-weight: 700;
-  color: #f1c40f;
-  padding: 0.8rem 1.1rem;
-  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0; /* Evita que se encoja */
-  text-align: center; /* Asegurar centrado */
+  background-color: rgba(0, 0, 0, 0.4); border-bottom: 1px solid rgba(255, 255, 255, 0.15); font-weight: 700;
+  color: #f1c40f; padding: 0.8rem 1.1rem; font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; text-align: center;
 }
-.card-header-custom i {
-  font-size: 1.2em;
-  vertical-align: middle;
-  margin-right: 0.4rem !important;
-}
+.card-header-custom i { font-size: 1.2em; vertical-align: middle; margin-right: 0.4rem !important; }
 
 .card-body-custom {
-    flex-grow: 1; /* Body ocupa espacio restante */
-    display: flex; /* Para controlar la lista interior */
-    flex-direction: column; /* Dirección */
+    flex-grow: 1; /* <<< Body ocupa espacio restante en Card */
+    display: flex; /* Controlar la lista */
+    flex-direction: column;
     padding: 0 !important;
-    overflow: hidden; /* Oculta overflow del body */
+    /* overflow: hidden; QUITADO - Dejar que la lista controle su overflow */
 }
 
+/* --- ESTILOS BASE PARA LISTAS (Default: Mobile) --- */
 .results-list {
-  flex-grow: 1; /* La lista intenta ocupar todo el body */
-  overflow-y: auto; /* Scroll vertical si el contenido es muy alto A PESAR de las columnas */
-  padding: 0.5rem 0; /* Padding vertical */
+  padding: 0.5rem 0; list-style: none; margin: 0;
+  width: 100%; /* Ocupar ancho */
+  flex-grow: 1; /* Ocupar espacio vertical en el body */
 
-  /* --- CSS COLUMNS --- */
-  /* Por defecto (móvil), no hay columnas y hay max-height */
-  max-height: 55vh; /* Altura máxima por defecto para scroll vertical */
+  /* Por defecto (móvil): scroll vertical si excede max-height */
+  display: block; /* Comportamiento normal de lista */
+  max-height: 35vh; /* Límite de altura */
+  overflow-y: auto; /* Scroll vertical */
 
-  @media (min-width: 768px) { /* Desde 'md' (tablets) */
-      column-count: 2;
-      column-gap: 1.5rem;
-      max-height: none; /* Quitamos limitación vertical para que las columnas fluyan */
-  }
-  @media (min-width: 1200px) { /* Desde 'xl' (escritorios grandes) */
-      /* Opcional: 3 columnas si hay espacio */
-      /* column-count: 3; */
-      /* column-gap: 1rem; */
-  }
-  /* --- FIN CSS COLUMNS --- */
-
-  /* Estilo scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: rgba(243, 156, 18, 0.5) rgba(0,0,0,0.2);
+  /* Estilo scrollbar (visible en móvil si necesario) */
+  scrollbar-width: thin; scrollbar-color: rgba(243, 156, 18, 0.6) rgba(0,0,0,0.3);
 }
 .results-list::-webkit-scrollbar { width: 8px; }
-.results-list::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 0; }
-.results-list::-webkit-scrollbar-thumb { background-color: rgba(243, 156, 18, 0.6); border-radius: 0; }
+.results-list::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.3); border-radius: 0; }
+.results-list::-webkit-scrollbar-thumb { background-color: rgba(243, 156, 18, 0.6); border-radius: 4px; }
 .results-list::-webkit-scrollbar-thumb:hover { background-color: rgba(243, 156, 18, 0.9); }
 
-
+/* --- ESTILOS PARA ITEMS INDIVIDUALES --- */
 .result-item {
-  background-color: transparent !important; border: none !important;
-  padding: 0.7rem 1rem;
-  font-size: clamp(0.9rem, 1.9vw, 1.05rem);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: transparent !important; border: none !important; padding: 0.7rem 1rem;
+  font-size: clamp(0.9rem, 1.9vw, 1.05rem); border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
   display: flex; justify-content: space-between; align-items: center;
-  transition: background-color 0.2s ease;
-  width: 100%; /* Asegurar que ocupe el ancho de la columna */
-
-  /* --- CSS COLUMNS - Evitar rotura --- */
-  break-inside: avoid; /* Evitar que se parta el item */
-  page-break-inside: avoid; /* Alias para compatibilidad */
-  /* --- FIN CSS COLUMNS --- */
+  transition: background-color 0.2s ease; width: 100%;
+  break-inside: avoid; /* Ayuda a column-count */
+  page-break-inside: avoid;
 }
 .result-item:last-child { border-bottom: none !important; }
 .result-item:hover { background-color: rgba(255, 255, 255, 0.05) !important; }
-
-.placeholder-item {
-    color: #888 !important;
-    font-style: italic;
-    font-size: 0.9em;
-    justify-content: center; /* Centrar el texto placeholder */
-    padding: 2rem 1rem; /* Más espacio vertical para el placeholder */
-}
-
-.eliminated-item {
-  color: #e74c3c !important; font-family: 'Roboto Mono', monospace;
-  font-size: clamp(0.95rem, 2.1vw, 1.15rem);
-  justify-content: center;
-  font-weight: 700;
-  opacity: 0.8;
-}
-.eliminated-item:hover {
-    opacity: 1;
-    background-color: rgba(231, 76, 60, 0.1) !important;
-}
-
-/* --- ESTILOS MEJORADOS PARA GANADORES --- */
-.winner-item {
-  color: #2ecc71 !important;
-  align-items: flex-start;
-  background: linear-gradient(90deg, rgba(46, 204, 113, 0.05), rgba(46, 204, 113, 0)) !important;
-}
-.winner-item:hover {
-    background: linear-gradient(90deg, rgba(46, 204, 113, 0.15), rgba(46, 204, 113, 0.05)) !important;
-}
-
-.winner-details-container {
-  display: flex; flex-direction: column; flex-grow: 1;
-  margin-right: 0.7rem;
-}
-
-.winner-number {
-  font-weight: 700; font-family: 'Roboto Mono', monospace;
-  font-size: 1.3em;
-  color: #34ff83;
-  margin-bottom: 0.3rem;
-  line-height: 1.1;
-  text-shadow: 0 0 3px rgba(52, 255, 131, 0.5);
-}
-
-.prize-details {
-  display: flex; align-items: center;
-  color: #d0d0d0;
-  font-size: 0.98em;
-  line-height: 1.3;
-}
-
-.prize-icon {
-  color: #f1c40f; font-size: 1.2em;
-  margin-right: 0.4rem;
-  flex-shrink: 0;
-}
-
+.placeholder-item { color: #888 !important; font-style: italic; font-size: 0.9em; justify-content: center; padding: 2rem 1rem; }
+.eliminated-item { color: #e74c3c !important; font-family: 'Roboto Mono', monospace; font-size: clamp(0.95rem, 2.1vw, 1.15rem); justify-content: center; font-weight: 700; opacity: 0.8; }
+.eliminated-item:hover { opacity: 1; background-color: rgba(231, 76, 60, 0.1) !important; }
+.winner-item { color: #2ecc71 !important; align-items: flex-start; background: linear-gradient(90deg, rgba(46, 204, 113, 0.05), rgba(46, 204, 113, 0)) !important; }
+.winner-item:hover { background: linear-gradient(90deg, rgba(46, 204, 113, 0.15), rgba(46, 204, 113, 0.05)) !important; }
+.winner-details-container { display: flex; flex-direction: column; flex-grow: 1; margin-right: 0.7rem; }
+.winner-number { font-weight: 700; font-family: 'Roboto Mono', monospace; font-size: 1.3em; color: #34ff83; margin-bottom: 0.3rem; line-height: 1.1; text-shadow: 0 0 3px rgba(52, 255, 131, 0.5); }
+.prize-details { display: flex; align-items: center; color: #d0d0d0; font-size: 0.98em; line-height: 1.3; }
+.prize-icon { color: #f1c40f; font-size: 1.2em; margin-right: 0.4rem; flex-shrink: 0; }
 .prize-text { font-weight: 500; }
-
-.winner-gift-icon {
-  font-size: 1.8em;
-  opacity: 0.9;
-  align-self: center;
-  filter: drop-shadow(0 0 2px rgba(0,0,0,0.5));
-}
-/* --- FIN ESTILOS GANADORES --- */
+.winner-gift-icon { font-size: 1.8em; opacity: 0.9; align-self: center; filter: drop-shadow(0 0 2px rgba(0,0,0,0.5)); }
 
 
-/* === MEDIA QUERIES === */
-/* Tablets y Mayores (donde se aplican columnas) */
+/* --- COLUMNAS EN DESKTOP/TABLET (Usando column-count) --- */
 @media (min-width: 768px) {
-    /* Aquí ya se aplican las columnas a .results-list */
-    .main-layout-row {
-        align-items: stretch; /* Permite que columnas crezcan juntas si tienen alturas diferentes */
+    .results-list {
+        column-count: 2;           /* Número de columnas */
+        column-gap: 1rem;          /* Espacio entre columnas */
+        max-height: none;          /* <<< Permitir que crezca verticalmente lo necesario */
+        height: auto;              /* <<< Altura basada en el contenido */
+        overflow: hidden;          /* <<< Ocultar cualquier desbordamiento (vertical u horizontal) */
+        /* display: block; (ya es block por defecto, no necesario aquí) */
     }
+
+     /* Ya no necesitamos alturas fijas con column-count si el contenedor puede crecer */
+    /* .eliminated-list-container .results-list { height: ...; } */
+    /* .winners-list-container .results-list { height: ...; } */
+
+     /* Otros ajustes para Desktop */
+     .main-layout-row { align-items: stretch; } /* Reafirmar stretch */
+     .results-col { margin-top: 0; }
+     .card-body-custom {
+         overflow: hidden; /* Ocultar overflow del body también */
+     }
 }
 
-/* Móviles */
+/* Opcional: 3 Columnas en pantallas muy anchas */
+/* @media (min-width: 1400px) {
+   .results-list { column-count: 3; column-gap: 1rem; }
+} */
+
+
+/* --- MEDIA QUERIES GENERALES (Móvil) --- */
 @media (max-width: 767.98px) {
+    /* Los estilos base de .results-list (display: block, max-height, overflow-y: auto) aplican aquí */
     .app { padding: 1rem; }
     .app-container { padding: 0.5rem; }
     .digit { font-size: 3rem; width: 60px; height: 85px; }
@@ -376,23 +220,10 @@ body {
     .raffle-title { font-size: 1.8rem; }
     .prize-display .prize-name { font-size: 1.3rem; }
     .roll-button, .restart-button { font-size: 1rem; padding: 0.7rem 1.5rem; }
-    .results-list {
-        /* Aseguramos que la altura esté limitada en móvil */
-         max-height: 35vh; /* O la altura que prefieras */
-         /* column-count: unset; */ /* No es necesario si @media anida bien */
-    }
-    .results-col {
-        max-height: 45vh; /* Limitar altura de la columna entera en móvil */
-        min-height: unset;
-    }
-    .main-raffle-col {
-        min-height: unset; /* Quitar altura mínima en móvil */
-    }
-    .main-layout-row {
-        align-items: start; /* Volver a alinear arriba en móvil */
-    }
-    /* Orden explícito para móvil */
-     .order-md-1 { order: 2 !important; }
-     .order-md-2 { order: 1 !important; }
-     .order-md-3 { order: 3 !important; }
+    .results-col { max-height: 45vh; margin-top: 1rem; min-height: unset; }
+    .main-raffle-col { min-height: unset; }
+    .main-layout-row { align-items: start; } /* Alinear arriba en móvil */
+    .order-md-1 { order: 2 !important; }
+    .order-md-2 { order: 1 !important; }
+    .order-md-3 { order: 3 !important; }
 }

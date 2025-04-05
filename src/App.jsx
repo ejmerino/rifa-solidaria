@@ -156,7 +156,7 @@ function App() {
          <Row className="g-3 main-layout-row">
 
             {/* Left Column: Eliminated Numbers */}
-           <Col lg={3} md={4} className="d-flex flex-column order-md-1 order-2 results-col eliminated-list-container"> {/* Added specific class */}
+           <Col lg={3} md={4} className="d-flex flex-column order-md-1 order-2 results-col eliminated-list-container"> {/* Class for potential targeting */}
               <Card className="flex-grow-1 result-card">
                 <Card.Header as="h5" className="text-center card-header-custom">
                    <i className="bi bi-x-octagon-fill text-danger me-2"></i>Eliminados ({eliminatedNumbers.length})
@@ -217,7 +217,7 @@ function App() {
            </Col>
 
             {/* Right Column: Winners */}
-           <Col lg={3} md={4} className="d-flex flex-column order-md-3 order-3 results-col winners-list-container"> {/* Added specific class */}
+           <Col lg={3} md={4} className="d-flex flex-column order-md-3 order-3 results-col winners-list-container"> {/* Class for potential targeting */}
               <Card className="flex-grow-1 result-card">
                  <Card.Header as="h5" className="text-center card-header-custom">
                     <i className="bi bi-trophy-fill text-warning me-2"></i>Ganadores ({winners.length}/{prizes.length})
