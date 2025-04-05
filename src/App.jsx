@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { updateWinner, listenToWinner } from "./firebase";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
@@ -8,19 +7,10 @@ function App() {
   const [isRolling, setIsRolling] = useState(false);
   const [spinningDigits, setSpinningDigits] = useState([false, false, false, false]);
 
-  // Escuchar cambios en el número ganador
-  useEffect(() => {
-    listenToWinner((winnerNumber) => {
-      if (winnerNumber && !winners.includes(winnerNumber)) {
-        setWinners((prev) => [...prev, winnerNumber]);
-      }
-    });
-  }, [winners]);
-
   const getRandomNumber = () => {
     let num;
     do {
-      num = Math.floor(Math.random() * 2500) + 1;
+      num = Math.floor(Math.random() * 1500) + 1;
     } while (winners.includes(num));
     return num;
   };
@@ -47,8 +37,9 @@ function App() {
       });
     }
 
-    // Actualizar el número ganador en Firebase
-    updateWinner(parseInt(number));
+    // Mostrar ganador por 2 segundos
+    await new Promise((res) => setTimeout(res, 2000));
+    setWinners((prev) => [...prev, parseInt(number)]);
     setCurrentDigits(["0", "0", "0", "0"]);
     setIsRolling(false);
   };
