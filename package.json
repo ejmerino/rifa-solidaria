@@ -10,8 +10,12 @@
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {
+    "bootstrap": "^5.3.5",
+    "bootstrap-icons": "^1.11.3",
     "firebase": "^11.6.0",
     "react": "^19.0.0",
+    "react-bootstrap": "^2.10.9",
+    "react-confetti": "^6.4.0",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
