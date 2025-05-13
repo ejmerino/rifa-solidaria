@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import "./App.css";
-import { Container, Row, Col, Button, ListGroup, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, ListGroup, Card } from "react-bootstrap"; // ListGroup ya no se usará para las listas principales
 import Confetti from 'react-confetti';
 
 function App() {
   // --- State Variables ---
   const [winners, setWinners] = useState([]);
   const [eliminatedNumbers, setEliminatedNumbers] = useState([]);
-  const [currentDigits, setCurrentDigits] = useState(["-", "-", "-", "-"]); // Initial state
+  const [currentDigits, setCurrentDigits] = useState(["-", "-", "-", "-"]);
   const [isRolling, setIsRolling] = useState(false);
   const [spinningDigits, setSpinningDigits] = useState([false, false, false, false]);
-  const [rollCount, setRollCount] = useState(0); // Counter for the eliminated/winner cycle per prize
+  const [rollCount, setRollCount] = useState(0);
   const [currentPrizeIndex, setCurrentPrizeIndex] = useState(0);
   const [showConfetti, setShowConfetti] = useState(false);
   const [windowSize, setWindowSize] = useState({
@@ -20,16 +20,15 @@ function App() {
 
   // --- Constants ---
   const prizes = [
-    "Combo sorpresa 3", "Combo sorpresa 2", "Combo sorpresa 1", // Indices 0, 1, 2
+    "Combo sorpresa 3", "Combo sorpresa 2", "Combo sorpresa 1",
     "Reloj Infinix Watch", "Alexa Echodot 5ta gen.", "Alexa Echodot 5ta gen.",
     "Reloj Redmi Watch 4", "Smart TV 32” TCL", "Smart TV 43” TCL",
-    "Consola Play Station 5", // Indices 3 en adelante
+    "Consola Play Station 5",
   ];
-  const MIN_NUMBER = 2500; // <--- MODIFICADO: Límite inferior
-  const MAX_NUMBER = 5000; // <--- MODIFICADO: Límite superior
+  const MIN_NUMBER = 2500;
+  const MAX_NUMBER = 5000;
 
   // --- Effects ---
-  // Update window size for Confetti
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({ width: window.innerWidth, height: window.innerHeight });
@@ -38,7 +37,6 @@ function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Control Confetti duration (8 seconds)
   useEffect(() => {
       if (showConfetti) {
           const timer = setTimeout(() => setShowConfetti(false), 8000);
@@ -47,25 +45,22 @@ function App() {
   }, [showConfetti]);
 
   // --- Helper Functions ---
-  // Get a random number not already drawn within the new range
   const getRandomNumber = () => {
     let num;
     const drawnNumbers = new Set([...winners, ...eliminatedNumbers].map(nStr => parseInt(nStr, 10)));
-    const totalPossibleNumbersInRange = MAX_NUMBER - MIN_NUMBER + 1; // <--- MODIFICADO: Total de números posibles
+    const totalPossibleNumbersInRange = MAX_NUMBER - MIN_NUMBER + 1;
 
-    if (drawnNumbers.size >= totalPossibleNumbersInRange) { // <--- MODIFICADO: Condición de números agotados
+    if (drawnNumbers.size >= totalPossibleNumbersInRange) {
       console.warn("Todos los números posibles en el rango han sido sorteados.");
       return null;
     }
     do {
-      // Genera un número entre MIN_NUMBER y MAX_NUMBER (ambos inclusive)
-      num = Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER; // <--- MODIFICADO: Generación de número en rango
+      num = Math.floor(Math.random() * (MAX_NUMBER - MIN_NUMBER + 1)) + MIN_NUMBER;
     } while (drawnNumbers.has(num));
     return num;
   };
 
   // --- Core Logic ---
-  // Handle the rolling process
   const rollNumber = async () => {
     if (isRolling || currentPrizeIndex >= prizes.length) return;
 
@@ -83,7 +78,7 @@ function App() {
         return;
     }
 
-    const numberStr = randomNumber.toString().padStart(4, "0"); // Asumimos que los números siempre tendrán 4 dígitos o se rellenarán.
+    const numberStr = randomNumber.toString().padStart(4, "0");
 
     setSpinningDigits([true, true, true, true]);
 
@@ -112,33 +107,29 @@ function App() {
     setCurrentDigits(numberStr.split(''));
     setSpinningDigits([false, false, false, false]);
 
-    // --- MODIFICADO: Lógica de ganador/eliminado según el premio ---
     const nextRollCount = rollCount + 1;
     let rollsNeededForThisPrize;
 
-    // Los primeros 3 premios (índices 0, 1, 2) son los "Combo sorpresa"
     if (currentPrizeIndex <= 2) {
-      rollsNeededForThisPrize = 3; // 2 eliminados, 1 ganador
+      rollsNeededForThisPrize = 3;
     } else {
-      rollsNeededForThisPrize = 5; // 4 eliminados, 1 ganador
+      rollsNeededForThisPrize = 5;
     }
 
-    if (nextRollCount === rollsNeededForThisPrize) { // Es el último sorteo para este premio (ganador)
+    if (nextRollCount === rollsNeededForThisPrize) {
       setWinners((prev) => [...prev, numberStr]);
       setCurrentPrizeIndex((prev) => prev + 1);
       setShowConfetti(true);
-      setRollCount(0); // Reiniciar contador de sorteos para el próximo premio
-    } else { // Es un sorteo eliminado para este premio
+      setRollCount(0);
+    } else {
       setEliminatedNumbers((prev) => [...prev, numberStr]);
-      setRollCount(nextRollCount); // Incrementar contador de sorteos para el premio actual
+      setRollCount(nextRollCount);
     }
-    // --- FIN DE MODIFICACIÓN ---
 
     await new Promise((res) => setTimeout(res, 300));
     setIsRolling(false);
   };
 
-  // Reset the entire raffle
   const restartRaffle = () => {
     setWinners([]);
     setEliminatedNumbers([]);
@@ -150,7 +141,6 @@ function App() {
     setShowConfetti(false);
   };
 
-  // Check if raffle is finished
   const isRaffleFinished = currentPrizeIndex >= prizes.length;
 
   // --- Render ---
@@ -164,20 +154,39 @@ function App() {
                 <Card.Header as="h5" className="text-center card-header-custom">
                    <i className="bi bi-x-octagon-fill text-danger me-2"></i>Eliminados ({eliminatedNumbers.length})
                 </Card.Header>
-                <Card.Body className="p-0 card-body-custom">
-                  <ListGroup variant="flush" className="results-list">
-                    {eliminatedNumbers.length === 0 ? (
-                      <ListGroup.Item className="text-muted text-center py-4 placeholder-item">
-                        Aún no hay números eliminados.
-                      </ListGroup.Item>
-                    ) : (
-                      eliminatedNumbers.map((num, idx) => (
-                        <ListGroup.Item key={idx} className="text-danger result-item eliminated-item">
-                          {num}
-                        </ListGroup.Item>
-                      ))
-                    )}
-                  </ListGroup>
+                <Card.Body
+                  className="card-body-custom"
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: '4px',
+                    padding: '8px',
+                    alignItems: 'start',
+                    overflowY: 'auto',
+                    maxHeight: 'calc(100vh - 250px)', // Ajusta según tu layout
+                  }}
+                >
+                  {eliminatedNumbers.length === 0 ? (
+                    <div
+                      className="text-muted text-center py-4 placeholder-item"
+                      style={{ gridColumn: '1 / -1' }}
+                    >
+                      Aún no hay números eliminados.
+                    </div>
+                  ) : (
+                    eliminatedNumbers.map((num, idx) => (
+                      <div
+                        key={`eliminated-item-${idx}`}
+                        className="text-danger result-item eliminated-item text-center"
+                        style={{
+                          padding: '2px',
+                          wordBreak: 'break-all',
+                        }}
+                      >
+                        {num}
+                      </div>
+                    ))
+                  )}
                 </Card.Body>
               </Card>
            </Col>
@@ -218,28 +227,54 @@ function App() {
                  <Card.Header as="h5" className="text-center card-header-custom">
                     <i className="bi bi-trophy-fill text-warning me-2"></i>Ganadores ({winners.length}/{prizes.length})
                  </Card.Header>
-                <Card.Body className="p-0 card-body-custom">
-                  <ListGroup variant="flush" className="results-list">
-                    {winners.length === 0 ? (
-                        <ListGroup.Item className="text-muted text-center py-4 placeholder-item">
-                           Aún no hay ganadores.
-                        </ListGroup.Item>
-                    ) : (
-                      winners.map((num, idx) => (
-                        <ListGroup.Item key={idx} className="text-success result-item winner-item">
-                          <div className="winner-details-container">
-                              <span className="winner-number">{num}</span>
-                              <div className="prize-details">
-                                 <i className="bi bi-award-fill prize-icon me-1"></i>
-                                 <span className="prize-text">{prizes[idx]}</span>
-                              </div>
-                          </div>
-                          <span className="winner-gift-icon ms-2">🎁</span>
-                        </ListGroup.Item>
-                      ))
-                    )}
-                  </ListGroup>
+                {/* --- MODIFICACIÓN: Renderizar ganadores en 3 columnas usando CSS Grid --- */}
+                <Card.Body
+                  className="card-body-custom" // Mantenemos la clase original del Card.Body
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)', // 3 columnas
+                    gap: '6px', // Un poco más de espacio para el contenido del ganador
+                    padding: '8px',
+                    alignItems: 'stretch', // Para que todas las tarjetas de ganador en una fila tengan la misma altura
+                    overflowY: 'auto',
+                    maxHeight: 'calc(100vh - 250px)', // Ajusta según tu layout
+                  }}
+                >
+                  {winners.length === 0 ? (
+                    <div
+                      className="text-muted text-center py-4 placeholder-item"
+                      style={{ gridColumn: '1 / -1' }} // Placeholder ocupa todas las columnas
+                    >
+                       Aún no hay ganadores.
+                    </div>
+                  ) : (
+                    winners.map((num, idx) => (
+                      <div
+                        key={`winner-item-${idx}`}
+                        // Aplicamos clases para el estilo base del ganador.
+                        // text-center es opcional, dependiendo de cómo quieras alinear el contenido interno.
+                        className="text-success result-item winner-item d-flex flex-column align-items-center justify-content-center p-2"
+                        style={{
+                          // Opcional: si quieres un borde para cada ganador
+                          // border: '1px solid #e0e0e0',
+                          // borderRadius: '4px',
+                          textAlign: 'center', // Centra el texto dentro de esta celda
+                        }}
+                      >
+                        {/* Contenido del ganador, similar a como estaba en ListGroup.Item */}
+                        <span className="winner-number fw-bold" style={{fontSize: '1.1em'}}>{num}</span>
+                        <div className="prize-details mt-1" style={{fontSize: '0.85em'}}>
+                           <i className="bi bi-award-fill prize-icon me-1"></i>
+                           <span className="prize-text">{prizes[idx]}</span>
+                        </div>
+                        {/* El emoji de regalo 🎁 podría ser opcional si el espacio es muy reducido
+                            o puedes integrarlo de otra forma. Por ahora lo mantenemos. */}
+                        <span className="winner-gift-icon mt-1">🎁</span>
+                      </div>
+                    ))
+                  )}
                 </Card.Body>
+                {/* --- FIN DE MODIFICACIÓN --- */}
               </Card>
            </Col>
          </Row>
